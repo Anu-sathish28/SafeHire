@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SafeHire</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- Splash Screen -->
+
+    <div id="splash-screen">
+
+        <div class="splash-content">
+
+            <img
+                src="assets/safehire-logo.png"
+                alt="SafeHire Logo"
+                class="splash-logo"
+            >
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Main App -->
+
+    <div id="main-app">
+
+
+        <!-- Header -->
+
+        <header class="app-header">
+
+            <div class="brand">
+
+                <img
+                    src="assets/safehire-icon.png"
+                    alt="SafeHire Icon"
+                >
+
+                <h2>SafeHire</h2>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- Chat Area -->
+
+        <main class="chat-area">
+
+            <div id="chat-messages">
+
+                <!-- Messages will appear here -->
+
+            </div>
+
+        </main>
+
+
+
+        <!-- Input Section -->
+
+        <div class="input-section">
+
+
+            <!-- Upload Options Menu -->
+
+            <div id="upload-menu" class="upload-menu">
+
+                <button type="button" id="camera-option">
+                    📷 Camera
+                </button>
+
+                <button type="button" id="photo-option">
+                    🖼️ Photos
+                </button>
+
+                <button type="button" id="file-option">
+                    📁 Files
+                </button>
+
+                <button type="button" id="url-option">
+                    🔗 Add URL
+                </button>
+
+            </div>
+
+
+
+            <!-- Input Box -->
+
+            <div class="input-box">
+
+
+                <!-- Plus Button -->
+
+                <button
+                    class="icon-button"
+                    id="upload-btn"
+                    type="button"
+                    title="Add Job Details"
+                >
+                    +
+                </button>
+
+
+
+               <!-- Camera Popup -->
+
+<div id="camera-modal" class="camera-modal">
+
+    <div class="camera-content">
+
+        <h3>Take Job Photo</h3>
+
+        <video id="camera-video" autoplay playsinline></video>
+
+        <canvas id="camera-canvas" hidden></canvas>
+
+        <div class="camera-buttons">
+
+            <button id="capture-btn" type="button">
+                📷 Capture
+            </button>
+
+            <button id="close-camera-btn" type="button">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+                <!-- Photos Input -->
+
+                <input
+                    type="file"
+                    id="photo-input"
+                    accept="image/*"
+                    hidden
+                >
+
+
+
+                <!-- Files Input -->
+
+                <input
+                    type="file"
+                    id="file-input"
+                    accept=".pdf,.doc,.docx"
+                    hidden
+                >
+
+
+
+                <!-- Text Input -->
+
+                <textarea
+                    id="job-input"
+                    placeholder="Enter job or internship details..."
+                    rows="1"
+                ></textarea>
+
+
+
+                <!-- Voice Button -->
+
+                <button
+                    class="icon-button"
+                    id="voice-btn"
+                    type="button"
+                    title="Voice Input"
+                >
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/>
+
+                        <path d="M19 11a7 7 0 0 1-14 0"/>
+
+                        <path d="M12 18v3"/>
+
+                        <path d="M8 21h8"/>
+
+                    </svg>
+
+                </button>
+
+
+
+                <!-- Send Button -->
+
+                <button
+                    id="send-btn"
+                    type="button"
+                    title="Analyze"
+                >
+                    ↑
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+<!-- URL Popup -->
+
+<div id="url-modal" class="url-modal">
+
+    <div class="url-content">
+
+        <h3>Add Job URL</h3>
+
+        <input
+            type="text"
+            id="url-input"
+            placeholder="Paste the job or internship URL here..."
+        >
+
+        <div class="url-buttons">
+
+            <button id="add-url-btn" type="button">
+                Add URL
+            </button>
+
+            <button id="close-url-btn" type="button">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- JavaScript File -->
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
