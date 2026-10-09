@@ -1,0 +1,22 @@
+{
+  "name": "SafeHire - Fake Job and Internship Detection",
+  "short_name": "SafeHire",
+  "description": "Check job and internship opportunities for potential fraud.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "./assets/safehire-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/safehire-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 
