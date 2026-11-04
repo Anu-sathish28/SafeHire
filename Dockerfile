@@ -22,4 +22,4 @@ RUN pip install --no-cache-dir gunicorn
 WORKDIR /app/backend
 
 # Start SafeHire Flask application
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--timeout" , "app:app"]
