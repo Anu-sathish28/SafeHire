@@ -685,7 +685,7 @@ def extract_image_text(file_bytes):
         # Run one OCR pass with a 45-second limit
         text = pytesseract.image_to_string(
             image,
-            config="--psm 6",
+            config="--psm 11",
             timeout=45
         )
 
