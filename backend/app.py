@@ -636,7 +636,7 @@ def preprocess_image(image):
         width, height = image.size
 
         # Limit very large images to reduce memory usage
-        max_dimension = 2200
+        max_dimension = 1600
 
         if max(width, height) > max_dimension:
             scale = max_dimension / float(max(width, height))
@@ -649,17 +649,7 @@ def preprocess_image(image):
                 Image.Resampling.LANCZOS
             )
 
-        # Enlarge smaller images for better OCR readability
-        elif width < 1200:
-            scale = 1200 / float(width)
-
-            image = image.resize(
-                (
-                    int(width * scale),
-                    int(height * scale)
-                ),
-                Image.Resampling.LANCZOS
-            )
+        
 
         image = ImageEnhance.Contrast(image).enhance(2.0)
 
