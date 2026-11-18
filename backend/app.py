@@ -620,41 +620,26 @@ def fetch_url_text(url):
 # IMAGE / OCR EXTRACTION
 # ============================================================
 
-def preprocess_image(
-    image
-):
+
+def preprocess_image(image):
 
     try:
-
         if ImageOps is not None:
-
             try:
-
-                image = ImageOps.exif_transpose(
-                    image
-                )
-
+                image = ImageOps.exif_transpose(image)
             except Exception:
                 pass
 
-        image = image.convert(
-            "RGB"
-        )
-
-        image = ImageOps.grayscale(
-            image
-        )
+        image = image.convert("RGB")
+        image = ImageOps.grayscale(image)
 
         width, height = image.size
 
-        target_width = 1800
+        # Limit very large images to reduce memory usage
+        max_dimension = 2200
 
-        if width < target_width:
-
-            scale = (
-                target_width /
-                float(width)
-            )
+        if max(width, height) > max_dimension:
+            scale = max_dimension / float(max(width, height))
 
             image = image.resize(
                 (
@@ -664,94 +649,50 @@ def preprocess_image(
                 Image.Resampling.LANCZOS
             )
 
-        image = ImageEnhance.Contrast(
-            image
-        ).enhance(2.0)
+        # Enlarge smaller images for better OCR readability
+        elif width < 1200:
+            scale = 1200 / float(width)
 
-        if ImageFilter is not None:
-
-            image = image.filter(
-                ImageFilter.SHARPEN
+            image = image.resize(
+                (
+                    int(width * scale),
+                    int(height * scale)
+                ),
+                Image.Resampling.LANCZOS
             )
 
+        image = ImageEnhance.Contrast(image).enhance(2.0)
+
+        if ImageFilter is not None:
+            image = image.filter(ImageFilter.SHARPEN)
+
         return image
 
-    except Exception:
-
+    except Exception as e:
+        print("Image preprocessing error:", e)
         return image
 
 
-def extract_image_text(
-    file_bytes
-):
+def extract_image_text(file_bytes):
 
-    if (
-        Image is None
-        or pytesseract is None
-    ):
-
+    if Image is None or pytesseract is None:
         return ""
 
     try:
+        image = Image.open(io.BytesIO(file_bytes))
+        image = preprocess_image(image)
 
-        image = Image.open(
-            io.BytesIO(
-                file_bytes
-            )
+        # Run one OCR pass with a 45-second limit
+        text = pytesseract.image_to_string(
+            image,
+            config="--psm 6",
+            timeout=45
         )
 
-        image = preprocess_image(
-            image
-        )
-
-        ocr_results = []
-
-        for psm in [
-            6,
-            11,
-            12
-        ]:
-
-            try:
-
-                text = pytesseract.image_to_string(
-                    image,
-                    config=f"--psm {psm}"
-                )
-
-                text = text.strip()
-
-                if text:
-
-                    ocr_results.append(
-                        text
-                    )
-
-            except Exception as e:
-
-                print(
-                    "OCR pass error:",
-                    e
-                )
-
-        if not ocr_results:
-
-            return ""
-
-        ocr_results.sort(
-            key=len,
-            reverse=True
-        )
-
-        return ocr_results[0]
+        return text.strip()
 
     except Exception as e:
-
-        print(
-            "OCR error:",
-            e
-        )
-
+        print("OCR error:", e)
         return ""
 
 
