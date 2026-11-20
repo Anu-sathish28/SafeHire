@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 import os
 import re
+import time 
 import io
 import zipfile
 import requests
@@ -666,23 +667,41 @@ def preprocess_image(image):
 def extract_image_text(file_bytes):
 
     if Image is None or pytesseract is None:
+        print("OCR unavailable: Image or pytesseract is missing")
         return ""
 
-    try:
-        image = Image.open(io.BytesIO(file_bytes))
-        image = preprocess_image(image)
+    start_time = time.time()
 
-        # Run one OCR pass with a 45-second limit
+    try:
+        print("OCR started...")
+
+        image = Image.open(io.BytesIO(file_bytes))
+        print("Image opened successfully")
+
+        image = preprocess_image(image)
+        print("Image preprocessing completed")
+
+        preprocess_time = time.time() - start_time
+        print(f"Image preprocessing time: {preprocess_time:.2f} seconds")
+
+        ocr_start = time.time()
+
         text = pytesseract.image_to_string(
             image,
             config="--psm 11",
-            timeout=45
+            timeout=120
         )
+
+        ocr_time = time.time() - ocr_start
+
+        print(f"Tesseract OCR completed in: {ocr_time:.2f} seconds")
+        print(f"Extracted text length: {len(text.strip())}")
 
         return text.strip()
 
     except Exception as e:
         print("OCR error:", e)
+        print(f"Total OCR time: {time.time() - start_time:.2f} seconds")
         return ""
 
 
